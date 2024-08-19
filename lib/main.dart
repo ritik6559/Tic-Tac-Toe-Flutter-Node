@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tic_tac_toe/screens/main_menu_screen.dart';
 import 'package:tic_tac_toe/utils/color.dart';
 
 void main() {
@@ -15,7 +16,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: bgColor
       ),
-      home: const Text('Flutter Demo Home Page'),
+      home: const MainMenuScreen(),
+      routes: {
+        MainMenuScreen.routeName : (context) => const MainMenuScreen(),
+      },
+      initialRoute: MainMenuScreen.routeName,
     );
   }
 }
