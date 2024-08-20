@@ -6,6 +6,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 const server = http.createServer(app);
 const io = require("socket.io")(server);
+const Room = require('./models/room');
 
 app.use(express.json());
 
@@ -15,17 +16,39 @@ const DB =
 
 io.on("connection", (socket) => {
   console.log("connected!");
-  socket.on('createRoom',async ({ nickname }) => {
+  socket.on('createRoom', async ({ nickname }) => {
     console.log(nickname);
-    // room is created
+    try {
+      // room is created
+      let room = new Room();
+      let player = {
+        socketID: socket.id,
+        nickname,
+        playerType: 'X',
+      };
+
+      // player is stored in the room
+      room.players.push(player);
+      room.turn = player;
+      room = await room.save();
+
+      const roomId = room._id.toString();
+
+      socket.join(roomId);
+      //tell our client that room has been created
+      //go to the next page
+      // io -> send data to everyone
+      // socket -> sending data to yourself
+      io.to(roomId).emit("createdRoomSuccess", room);//telling client room has been created.
+    } catch (e){
+      console.log(e);
+    }
     
-    // player is stored in the room
-    // player is taken to the next screen
   });
 });
 
 io.on("error", (err) => {
-    console.error("Socket.io error:", err);
+  console.error("Socket.io error:", err);
 });
 
 mongoose

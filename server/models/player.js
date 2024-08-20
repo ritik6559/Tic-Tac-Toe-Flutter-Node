@@ -12,7 +12,7 @@ const playerSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
-    playerType:{// it shows whether it will be 0 or X.
+    playerType:{// what the user is playng with X or 0.
         required: true,
         type: String,
     },

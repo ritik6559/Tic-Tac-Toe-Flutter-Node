@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tic_tac_toe/screens/create_room_screen.dart';
+import 'package:tic_tac_toe/screens/game_screen.dart';
 import 'package:tic_tac_toe/screens/join_room_screen.dart';
 import 'package:tic_tac_toe/screens/main_menu_screen.dart';
 import 'package:tic_tac_toe/utils/color.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         MainMenuScreen.routeName : (context) => const MainMenuScreen(),
         JoinRoomScreen.routeName : (context) => const JoinRoomScreen(),
         CreateRoomScreen.routeName : (context) => const CreateRoomScreen(),
+        GameScreen.routeName: (context) => const GameScreen(),
       },
       initialRoute: MainMenuScreen.routeName,
     );
