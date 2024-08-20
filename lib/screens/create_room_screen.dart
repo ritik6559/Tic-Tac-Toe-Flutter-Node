@@ -16,6 +16,13 @@ class CreateRoomScreen extends StatefulWidget {
 class _CreateRoomScreenState extends State<CreateRoomScreen> {
   final TextEditingController _nameContoller = TextEditingController();
   final SocketMethods _socketMethods = SocketMethods();
+
+  @override
+  void initState() {
+    super.initState();
+    _socketMethods.createRoomSuccessListener(context);
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -55,7 +62,8 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                 height: size.height * 0.045,
               ),
               CustomButton(
-                onTap: () => _socketMethods.createRoom(_nameContoller.text.trim()),
+                onTap: () =>
+                    _socketMethods.createRoom(_nameContoller.text.trim()),
                 text: 'Create',
               )
             ],
