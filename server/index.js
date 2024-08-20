@@ -15,8 +15,12 @@ const DB =
 
 io.on("connection", (socket) => {
   console.log("connected!");
-  socket.on('createRoom',({nickname}) => {
+  socket.on('createRoom',async ({ nickname }) => {
     console.log(nickname);
+    // room is created
+    
+    // player is stored in the room
+    // player is taken to the next screen
   });
 });
 
