@@ -56,7 +56,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
               ),
               CustomTextField(
                 controller: _nameContoller,
-                hintText: 'Room name',
+                hintText: 'Nickname',
               ),
               SizedBox(
                 height: size.height * 0.045,

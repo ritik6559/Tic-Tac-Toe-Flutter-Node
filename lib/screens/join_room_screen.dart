@@ -23,6 +23,7 @@ class _JoinRoomScreenState extends State<JoinRoomScreen> {
     super.initState();
     socketMethods.errorOccuredListener(context);
     socketMethods.joinRoomSuccessListener(context);
+    socketMethods.updatePlayerStateListener(context);
   }
 
   @override
@@ -52,7 +53,7 @@ class _JoinRoomScreenState extends State<JoinRoomScreen> {
               ),
               CustomTextField(
                 controller: _nameContoller,
-                hintText: 'Room name',
+                hintText: 'Enter nickname',
               ),
               SizedBox(
                 height: size.height * 0.02,
