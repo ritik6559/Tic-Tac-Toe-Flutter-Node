@@ -45,6 +45,33 @@ io.on("connection", (socket) => {
     }
     
   });
+
+
+  socket.on('joinRoom',async ({nickname, roomId}) => {
+    try{
+      if(!roomId.match(/^[0-9a-fA-F]{24}$/)){
+        socket.emit('errorOccurred','Please enter a valid room ID');
+        return;
+      }
+      let room = await Room.findById(roomId);
+      if(room.isJoin){
+        let player = {
+          nickname,
+          socketID: socket.id,
+          playerType: 'O'
+        }
+
+        socket.join(roomId);
+        room.players.push(player);
+        room = await room.save();
+        io.to(roomId).emit("joinRoomSuccess",room);
+      } else {
+        socket.emit('errorOccurred','Lobby is full');
+      }
+    } catch (e){
+      console.log(e);
+    }
+  })
 });
 
 io.on("error", (err) => {
