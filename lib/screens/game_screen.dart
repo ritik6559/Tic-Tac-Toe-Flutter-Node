@@ -17,12 +17,13 @@ class _GameScreenState extends State<GameScreen> {
     RoomDataProvider roomDataProvider = Provider.of<RoomDataProvider>(context);
 
     return Scaffold(
-        body: roomDataProvider.roomData['isJoin']
-            ? const WaitingScreen()
-            : Center(
-                child: Text(
-                  roomDataProvider.roomData.toString(),
-                ),
-              ));
+      body: roomDataProvider.roomData['isJoin']
+          ? const WaitingScreen()
+          : Center(
+              child: Text(
+                roomDataProvider.roomData.toString(),
+              ),
+            ),
+    );
   }
 }

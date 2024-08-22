@@ -37,10 +37,16 @@ class _WaitingScreenState extends State<WaitingScreen> {
         const SizedBox(
           height: 20,
         ),
-        CustomTextField(
-          controller: roomIdController,
-          hintText: '',
-          isReadOnly: true,
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20.0,
+            vertical: 10,
+          ),
+          child: CustomTextField(
+            controller: roomIdController,
+            hintText: '',
+            isReadOnly: true,
+          ),
         ),
       ],
     );
