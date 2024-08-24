@@ -22,6 +22,7 @@ class _GameScreenState extends State<GameScreen> {
     super.initState();
     _socketMethods.updateRoomListener(context);
     _socketMethods.updatePlayerStateListener(context);
+    
   }
 
   @override

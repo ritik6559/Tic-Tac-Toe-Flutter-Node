@@ -14,18 +14,19 @@ class TicTacToeBoard extends StatefulWidget {
 class _TicTacToeBoardState extends State<TicTacToeBoard> {
   final SocketMethods _socketMethods = SocketMethods();
 
-  tapped(int index, RoomDataProvider roomDataProvider) {
-    _socketMethods.tapGrid(
-      index,
-      roomDataProvider.roomData['_id'],
-      roomDataProvider.displayItems,
-    );
-  }
-
   @override
   void initState() {
     super.initState();
     _socketMethods.tappedListener(context);
+    _socketMethods.updateRoomListener(context);
+  }
+
+  void tapped(int index, RoomDataProvider roomDataProvider) {
+    _socketMethods.tapGrid(
+      index,
+      roomDataProvider.roomData['_id'],
+      roomDataProvider.displayElements,
+    );
   }
 
   @override
@@ -39,7 +40,7 @@ class _TicTacToeBoardState extends State<TicTacToeBoard> {
         maxWidth: 500,
       ),
       child: AbsorbPointer(
-        absorbing: roomDataProvider.roomData['turn']['sockedID'] !=
+        absorbing: roomDataProvider.roomData['turn']['socketID'] !=
             _socketMethods.socketClient.id,
         child: GridView.builder(
           itemCount: 9,
@@ -62,7 +63,7 @@ class _TicTacToeBoardState extends State<TicTacToeBoard> {
                       milliseconds: 200,
                     ),
                     child: Text(
-                      roomDataProvider.displayItems[index],
+                      roomDataProvider.displayElements[index],
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 100,
@@ -70,9 +71,10 @@ class _TicTacToeBoardState extends State<TicTacToeBoard> {
                         shadows: [
                           Shadow(
                             blurRadius: 40,
-                            color: roomDataProvider.displayItems[index] == 'O'
-                                ? Colors.red
-                                : Colors.blue,
+                            color:
+                                roomDataProvider.displayElements[index] == 'O'
+                                    ? Colors.red
+                                    : Colors.blue,
                           )
                         ],
                       ),
