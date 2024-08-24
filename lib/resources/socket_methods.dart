@@ -5,6 +5,7 @@ import 'package:tic_tac_toe/provider/room_data_provider.dart';
 import 'package:tic_tac_toe/resources/game_methods.dart';
 import 'package:tic_tac_toe/resources/socket_client.dart';
 import 'package:tic_tac_toe/screens/game_screen.dart';
+import 'package:tic_tac_toe/screens/main_menu_screen.dart';
 import 'package:tic_tac_toe/utils/utils.dart';
 
 class SocketMethods {
@@ -107,6 +108,33 @@ class SocketMethods {
         Provider.of<RoomDataProvider>(context, listen: false).updatePlayer2(
           playerData[1],
         ),
+      },
+    );
+  }
+
+  void pointIncreaseListener(BuildContext context) {
+    _socketClient.on('pointIncrease', (playerData) {
+      var roomDataProvider =
+          Provider.of<RoomDataProvider>(context, listen: false);
+      if (playerData['socketID'] == roomDataProvider.player1.socketID) {
+        roomDataProvider.updatePlayer1(playerData);
+      } else {
+        roomDataProvider.updatePlayer2(playerData);
+      }
+    });
+  }
+
+  void endGameListener(BuildContext context) {
+    _socketClient.on(
+      'endGame',
+      (playerData) {
+        showGameDialog(context, '${playerData['nickname']} won the game!');
+        Future.delayed(
+          const Duration(seconds: 5),
+          () {
+            Navigator.pushNamed(context, MainMenuScreen.routeName);
+          },
+        );
       },
     );
   }
