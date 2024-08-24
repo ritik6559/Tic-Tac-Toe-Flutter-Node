@@ -13,7 +13,7 @@ class RoomDataProvider extends ChangeNotifier {
     '',
     '',
     '',
-  ];
+  ];  //['X','O','X',....]
   int _filledBoxes = 1;
   Player _player1 = Player(
     nickname: '',

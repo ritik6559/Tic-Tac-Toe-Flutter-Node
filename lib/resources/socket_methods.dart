@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
@@ -30,49 +29,7 @@ class SocketMethods {
     }
   }
 
-  // LISTENER
-
-  void createRoomSuccessListener(BuildContext context) {
-    _socketClient.on('createdRoomSuccess', (room) {
-      context.read<RoomDataProvider>().updateRoomData(room);
-      Navigator.pushNamed(
-        context,
-        GameScreen.routeName,
-      );
-    });
-  }
-
-  void joinRoomSuccessListener(BuildContext context) {
-    _socketClient.on('joinRoomSuccess', (room) {
-      context.read<RoomDataProvider>().updateRoomData(room);
-      Navigator.pushNamed(
-        context,
-        GameScreen.routeName,
-      );
-    });
-  }
-
-  void errorOccuredListener(BuildContext context) {
-    _socketClient.on('errorOccurred', (data) {
-      showSnackBar(
-        context,
-        data,
-      );
-    });
-  }
-
-  void updateRoomListener(BuildContext context) {
-    _socketClient.on(
-      'updateRoom',
-      (data) {
-        context.read<RoomDataProvider>().updateRoomData(data);
-      },
-    );
-  }
-
-  void tapGrid(int index, String roomId,
-      List<String> displayElements //['X','O','X',....]
-      ) {
+  void tapGrid(int index, String roomId, List<String> displayElements) {
     if (displayElements[index] == '') {
       _socketClient.emit('tap', {
         'index': index,
@@ -81,16 +38,57 @@ class SocketMethods {
     }
   }
 
+  // LISTENER
+
+  void createRoomSuccessListener(BuildContext context) {
+    _socketClient.on('createRoomSuccess', (room) {
+      Provider.of<RoomDataProvider>(context, listen: false)
+          .updateRoomData(room);
+      Navigator.pushNamed(context, GameScreen.routeName);
+    });
+  }
+
+  void joinRoomSuccessListener(BuildContext context) {
+    _socketClient.on('joinRoomSuccess', (room) {
+      Provider.of<RoomDataProvider>(context, listen: false)
+          .updateRoomData(room);
+      Navigator.pushNamed(context, GameScreen.routeName);
+    });
+  }
+
+  void errorOccuredListener(BuildContext context) {
+    _socketClient.on('errorOccurred', (data) {
+      showSnackBar(context, data);
+    });
+  }
+
+  void updatePlayersStateListener(BuildContext context) {
+    _socketClient.on('updatePlayers', (playerData) {
+      Provider.of<RoomDataProvider>(context, listen: false).updatePlayer1(
+        playerData[0],
+      );
+      Provider.of<RoomDataProvider>(context, listen: false).updatePlayer2(
+        playerData[1],
+      );
+    });
+  }
+
+  void updateRoomListener(BuildContext context) {
+    _socketClient.on('updateRoom', (data) {
+      Provider.of<RoomDataProvider>(context, listen: false)
+          .updateRoomData(data);
+    });
+  }
+
   void tappedListener(BuildContext context) {
     _socketClient.on('tapped', (data) {
-      RoomDataProvider roomDataProvider = context.read<RoomDataProvider>();
+      RoomDataProvider roomDataProvider =
+          Provider.of<RoomDataProvider>(context, listen: false);
       roomDataProvider.updateDisplayElements(
         data['index'],
         data['choice'],
       );
-      roomDataProvider.updateRoomData(
-        data['room'],
-      );
+      roomDataProvider.updateRoomData(data['room']);
     });
   }
 

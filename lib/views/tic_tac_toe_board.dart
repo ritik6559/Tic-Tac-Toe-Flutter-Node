@@ -51,10 +51,11 @@ class _TicTacToeBoardState extends State<TicTacToeBoard> {
               onTap: () => tapped(index, roomDataProvider),
               child: Container(
                 decoration: BoxDecoration(
-                    color: bgColor,
-                    border: Border.all(
-                      color: Colors.white24,
-                    )),
+                  color: bgColor,
+                  border: Border.all(
+                    color: Colors.white24,
+                  ),
+                ),
                 child: Center(
                   child: AnimatedSize(
                     duration: const Duration(

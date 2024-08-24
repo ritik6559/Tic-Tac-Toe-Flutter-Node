@@ -39,7 +39,7 @@ io.on("connection", (socket) => {
       //go to the next page
       // io -> send data to everyone
       // socket -> sending data to yourself
-      io.to(roomId).emit("createdRoomSuccess", room);//telling client room has been created.
+      io.to(roomId).emit("createRoomSuccess", room);//telling client room has been created.
     } catch (e){
       console.log(e);
     }
@@ -76,25 +76,25 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on('tap', async ({index, roomId}) => {
-    try{
-      let room = Room.findById(roomId);
-      let choice = room.turn.playerType;// x or o
-      if(room.turnIndex == 0){
-        room.turn = room.players[0];
+  socket.on("tap", async ({ index, roomId }) => {
+    try {
+      let room = await Room.findById(roomId);
+
+      let choice = room.turn.playerType; // x or o
+      if (room.turnIndex == 0) {
+        room.turn = room.players[1];
         room.turnIndex = 1;
       } else {
-        room.turn = room.players[1];
+        room.turn = room.players[0];
         room.turnIndex = 0;
       }
-
       room = await room.save();
-      io.to(roomId).emit('tapped', {
+      io.to(roomId).emit("tapped", {
         index,
         choice,
         room,
       });
-    } catch (e){
+    } catch (e) {
       console.log(e);
     }
   });
