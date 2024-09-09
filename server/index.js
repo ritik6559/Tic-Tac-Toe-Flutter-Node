@@ -11,7 +11,7 @@ const Room = require('./models/room');
 app.use(express.json());
 
 const DB =
-  "YOUR_API_KEY";
+  "mongodb+srv://ritikjoshi741:9456597017ritik@cluster0.xdkks.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 
 io.on("connection", (socket) => {
